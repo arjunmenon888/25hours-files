@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Protected Link</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem; }
+  .card { max-width: 520px; margin: auto; padding: 1.25rem; border: 1px solid #ddd; border-radius: 12px; }
+  input, button { width: 100%; padding: .8rem; margin-top: .6rem; font-size: 1rem; }
+  button { cursor: pointer; }
+  .err { color: #b00020; margin-top: .6rem; min-height: 1.2em; }
+  .hint { color: #555; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Enter Password to Continue</h1>
+  <p class="hint">This link is protected. Enter the password to proceed.</p>
+  <input id="pw" type="password" placeholder="Password" autocomplete="current-password" />
+  <button id="go">Unlock & Continue</button>
+  <div id="err" class="err"></div>
+</div>
+
+<script>
+function parseFragment() {
+  const hash = location.hash.replace(/^#/, "");
+  const params = new URLSearchParams(hash);
+  // Also support "v=1&iters=...&salt=...&iv=...&ct=..." style fragments
+  if ([...params.keys()].length > 0 && params.has("ct")) return params;
+
+  // If fragment is urlencoded (v=1&...), split manually
+  const alt = new URLSearchParams(hash);
+  return alt;
+}
+
+function b64urlToBytes(b64url) {
+  // add padding back
+  const pad = "=".repeat((4 - (b64url.length % 4)) % 4);
+  const str = b64url.replace(/-/g, "+").replace(/_/g, "/") + pad;
+  const bin = atob(str);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
+async function pbkdf2Key(password, salt, iterations) {
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey(
+    "raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations, hash: "SHA-256" },
+    baseKey,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+}
+
+async function decryptUrl(password, params) {
+  const v = params.get("v") || "1";
+  if (v !== "1") throw new Error("Unsupported version");
+  const iters = parseInt(params.get("iters") || "250000", 10);
+  const salt = b64urlToBytes(params.get("salt"));
+  const iv = b64urlToBytes(params.get("iv"));
+  const ct = b64urlToBytes(params.get("ct"));
+
+  const key = await pbkdf2Key(password, salt, iters);
+  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
+  const dec = new TextDecoder().decode(pt);
+  if (!/^https?:\/\//i.test(dec)) throw new Error("Decrypted value is not a URL");
+  return dec;
+}
+
+document.getElementById("go").addEventListener("click", async () => {
+  const err = document.getElementById("err");
+  err.textContent = "";
+  const pw = document.getElementById("pw").value;
+  const params = parseFragment();
+
+  try {
+    const url = await decryptUrl(pw, params);
+    // redirect immediately
+    window.location.replace(url);
+  } catch (e) {
+    console.error(e);
+    err.textContent = "Invalid password or corrupted link.";
+  }
+});
+
+// Allow pressing Enter
+document.getElementById("pw").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("go").click();
+});
+</script>
+</body>
+</html>
