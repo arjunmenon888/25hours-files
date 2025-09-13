@@ -2,46 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="robots" content="noindex,nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark light" />
 <title>25hours Hotel One Central — Document Vault</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23000' d='M20 28v-6a12 12 0 1 1 24 0v6h2a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V34a6 6 0 0 1 6-6h2zm6 0h12v-6a6 6 0 1 0-12 0v6z'/%3E%3C/svg%3E">
 
 <style>
   :root{
-    --bg1:#0e0f12;          /* deep charcoal */
-    --bg2:#1b1e24;          /* card bg */
-    --muted:#aeb4c0;        /* secondary text */
-    --acc:#ff4d4f;          /* accent (warm, energetic) */
-    --acc-2:#ffd166;        /* soft accent */
+    --bg1:#0e0f12;
+    --card:#171a20;
+    --muted:#aeb4c0;
+    --acc:#ff4d4f;
+    --acc-2:#ffd166;
     --ring: rgba(255,77,79,.45);
     --radius:18px;
     --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+    /* fluid type */
+    --fs-hero: clamp(1.25rem, 2.2vw + .8rem, 1.75rem);
+    --fs-body: clamp(.95rem, .4vw + .85rem, 1rem);
+    --fs-small: clamp(.8rem, .35vw + .7rem, .9rem);
   }
 
-  *{ box-sizing:border-box }
-  html,body{ height:100% }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
   body{
     margin:0;
-    font:16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+    font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
     color:#fff;
     background:
       radial-gradient(1200px 800px at 10% -10%, #222630 0%, transparent 60%),
       radial-gradient(1200px 800px at 110% 110%, #1a1f27 0%, transparent 60%),
       linear-gradient(180deg, #0e0f12 0%, #111319 100%);
     display:grid;
+    /* small viewport units = better on mobile with address bar/keyboard */
+    min-height: 100svh;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
     place-items:center;
-    padding:24px;
   }
 
   .wrap{
-    width:min(720px, 96vw);
-    box-shadow:var(--shadow);
+    width:min(680px, 100%);
     border-radius:var(--radius);
-    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    box-shadow:var(--shadow);
+    background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
     border:1px solid rgba(255,255,255,.08);
-    backdrop-filter:saturate(140%) blur(8px);
-    position:relative;
     overflow:hidden;
   }
 
@@ -55,53 +60,50 @@
   }
 
   header{
-    padding:28px 28px 0;
-    display:flex; align-items:center; gap:16px;
+    padding:20px 18px 0;
+    display:flex; align-items:center; gap:12px;
   }
   .logo{
-    width:56px; height:56px; border-radius:12px; overflow:hidden;
-    display:grid; place-items:center; background:#fff;
+    width:52px; height:52px; border-radius:12px; overflow:hidden;
+    display:grid; place-items:center; background:#fff; flex:0 0 auto;
   }
   .logo img{ width:100%; height:100%; object-fit:cover }
-  .brand h1{ margin:0; font-size:20px; letter-spacing:.2px }
-  .brand p{ margin:2px 0 0; color:var(--muted); font-size:13.5px }
+  .brand h1{ margin:0; font-size: clamp(1rem, 1.1vw + .9rem, 1.15rem); }
+  .brand p{ margin:.25rem 0 0; color:var(--muted); font-size: var(--fs-small); }
 
-  .card{
-    padding:26px 28px 30px;
-  }
+  .card{ padding:18px; }
 
   .badge{
     display:inline-flex; align-items:center; gap:8px;
     background:rgba(255,255,255,.06);
     border:1px solid rgba(255,255,255,.12);
     color:#e9edf4; font-weight:600; letter-spacing:.3px;
-    padding:6px 10px; border-radius:999px; font-size:12px;
+    padding:6px 10px; border-radius:999px; font-size:.8rem;
   }
   .badge svg{ width:16px; height:16px }
 
   h2{
-    margin:14px 0 6px; font-size:28px;
+    margin:12px 0 6px; font-size: var(--fs-hero);
     letter-spacing:.2px;
   }
   .sub{
-    color:var(--muted); margin:0 0 18px; font-size:14.5px;
+    color:var(--muted); margin:0 0 14px; font-size: var(--fs-body);
   }
 
-  form{
-    margin-top:8px;
-    display:grid; gap:12px;
-  }
-  label{ font-size:13.5px; color:#e8e9ee }
+  form{ display:grid; gap:12px; margin-top:6px; }
 
-  .input{
-    position:relative;
-  }
+  label{ font-size:.9rem; color:#e8e9ee }
+
+  .input{ position:relative; }
   input[type="password"], input[type="text"]{
-    width:100%; padding:14px 44px 14px 14px;
-    border-radius:12px; border:1px solid rgba(255,255,255,.12);
-    background:rgba(18,20,26,.8);
-    color:#fff; outline:none; font-size:16px;
-    transition:border-color .18s, box-shadow .18s, transform .05s;
+    width:100%;
+    padding: 14px 44px 14px 14px;           /* 44px min target on mobile */
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(18,20,26,.85);
+    color:#fff; outline:none; font-size:1rem;
+    transition: border-color .18s, box-shadow .18s, transform .05s;
+    -webkit-text-size-adjust: 100%;
   }
   input:focus{
     border-color:var(--ring);
@@ -109,43 +111,44 @@
   }
 
   .toggle{
-    position:absolute; right:8px; top:8px;
+    position:absolute; right:6px; top:6px;
     display:inline-flex; align-items:center; gap:6px;
-    font-size:12.5px; color:var(--muted);
+    font-size:.85rem; color:var(--muted);
     background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
-    padding:6px 8px; border-radius:10px; cursor:pointer; user-select:none;
+    padding:8px 10px; border-radius:10px; cursor:pointer; user-select:none;
   }
 
   button{
-    margin-top:6px;
-    width:100%; padding:14px 16px; border-radius:12px; border:none;
+    margin-top:4px;
+    width:100%; padding:16px; border-radius:14px; border:none;
     background:linear-gradient(180deg, var(--acc), #e63c3f);
-    color:#fff; font-weight:700; font-size:16px; letter-spacing:.2px;
+    color:#fff; font-weight:700; font-size:1rem; letter-spacing:.2px;
     box-shadow:0 6px 18px rgba(230,60,63,.45);
     cursor:pointer;
   }
   button:active{ transform:translateY(1px) }
 
   .meta{
-    display:flex; gap:12px; flex-wrap:wrap;
-    margin-top:14px; color:var(--muted); font-size:12.5px;
+    display:flex; gap:10px; flex-wrap:wrap;
+    margin-top:10px; color:var(--muted); font-size:.82rem;
   }
   .err{
-    color:#ffb3b3; min-height:1.2em; margin-top:6px; font-size:13.5px;
+    color:#ffb3b3; min-height:1.2em; margin-top:4px; font-size:.9rem;
   }
 
   footer{
-    padding:18px 28px 26px;
-    color:var(--muted); font-size:12.5px;
-    display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+    padding:14px 18px 18px;
+    color:var(--muted); font-size:.85rem;
+    display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
     border-top:1px solid rgba(255,255,255,.06);
   }
   a{ color:#e7ecff; text-decoration:underline dotted }
 
-  /* Success overlay */
+  /* veil for redirect */
   .veil{
     position:fixed; inset:0; display:none; place-items:center;
     background:rgba(14,15,18,.75); backdrop-filter:blur(4px);
+    padding-bottom: env(safe-area-inset-bottom);
   }
   .veil.on{ display:grid }
   .spinner{
@@ -155,8 +158,8 @@
   }
   @keyframes spin{ to{ transform:rotate(360deg) } }
 
-  /* Shake on error */
-  .shake{ animation:shake .3s linear }
+  /* error shake */
+  .shake{ animation:shake .28s linear }
   @keyframes shake{
     0%,100%{ transform:translateX(0) }
     20%{ transform:translateX(-6px) }
@@ -165,20 +168,23 @@
     80%{ transform:translateX(4px) }
   }
 
-  @media (max-width:520px){
-    h2{ font-size:24px }
-    .brand h1{ font-size:18px }
+  /* extra tweaks for very small screens */
+  @media (max-width: 480px){
+    .wrap{ border-radius:12px; }
+    header{ padding:16px 14px 0; }
+    .card{ padding:14px; }
+    footer{ padding:12px 14px 16px; }
+    .logo{ width:46px; height:46px; border-radius:10px; }
   }
 </style>
 </head>
 <body>
-
 <div class="wrap" role="main" aria-labelledby="vault-title">
   <div class="ribbon" aria-hidden="true"></div>
 
   <header>
     <div class="logo" aria-hidden="true">
-      <!-- Replace with your real logo URL if you like -->
+      <!-- Replace with hotel logo -->
       <img alt="25hours Logo" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg">
     </div>
     <div class="brand">
@@ -189,7 +195,6 @@
 
   <section class="card">
     <span class="badge" aria-hidden="true">
-      <!-- lock icon -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 8h-1V6a4 4 0 1 0-8 0v2H7a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3Zm-6 0h2V6a2 2 0 1 0-4 0v2Z"/></svg>
       Secure Access
     </span>
@@ -201,55 +206,50 @@
       <label for="pw">Password</label>
       <div class="input" id="input-wrap">
         <input id="pw" name="password" type="password" inputmode="text"
-               placeholder="Enter password" aria-required="true" autofocus />
-        <span class="toggle" id="toggle">
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12zm11 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
-          Show
-        </span>
+               placeholder="Enter password" aria-required="true" autocomplete="current-password" />
+        <span class="toggle" id="toggle">👁 Show</span>
       </div>
       <button id="go" type="button" aria-label="Unlock and continue">Unlock &amp; Continue</button>
       <div id="err" class="err" role="alert" aria-live="polite"></div>
 
       <div class="meta" aria-hidden="true">
-        <span>🔒 AES‑GCM encryption</span>
-        <span>🛡 PBKDF2‑SHA256 key derivation</span>
-        <span>♻ Client‑side decryption</span>
+        <span>🔒 AES‑GCM</span>
+        <span>🛡 PBKDF2‑SHA256</span>
+        <span>📱 Client‑side</span>
       </div>
     </form>
   </section>
 
   <footer>
-    <div>For authorised recipients only. Access is monitored.</div>
-    <div>Security department<a href="mailto:security.onecentral@25hours-hotels.com"></a>security.onecentral@25hours-hotels.com</div>
+    <div>Authorised recipients only. Access is monitored.</div>
+    <div>Need help? <a href="mailto:info@25hours-onecentral.example">info@25hours-onecentral.example</a></div>
   </footer>
 </div>
 
-<!-- Redirect veil -->
 <div class="veil" id="veil" aria-hidden="true">
   <div class="spinner" aria-label="Redirecting…"></div>
 </div>
 
 <script>
-/* ---------- UI niceties ---------- */
+/* UI helpers */
 const pw = document.getElementById('pw');
 const go = document.getElementById('go');
 const err = document.getElementById('err');
 const veil = document.getElementById('veil');
 const inputWrap = document.getElementById('input-wrap');
+const toggle = document.getElementById('toggle');
 
-document.getElementById('toggle').addEventListener('click', () => {
-  const type = pw.getAttribute('type') === 'password' ? 'text' : 'password';
-  pw.setAttribute('type', type);
-  document.getElementById('toggle').lastChild.textContent = (type === 'text' ? ' Hide' : ' Show');
+toggle.addEventListener('click', () => {
+  const isPassword = pw.type === 'password';
+  pw.type = isPassword ? 'text' : 'password';
+  toggle.textContent = (isPassword ? '🙈 Hide' : '👁 Show');
 });
 pw.addEventListener('keydown', e => { if (e.key === 'Enter') go.click(); });
 
-/* ---------- Crypto helpers (must match the Python side) ---------- */
+/* Crypto helpers */
 function parseFragment() {
   const hash = location.hash.replace(/^#/, "");
-  const params = new URLSearchParams(hash);
-  // We expect: v=1&iters=...&salt=...&iv=...&ct=...
-  return params;
+  return new URLSearchParams(hash); // expects v, iters, salt, iv, ct
 }
 function b64urlToBytes(b64url) {
   const pad = "=".repeat((4 - (b64url.length % 4)) % 4);
@@ -279,7 +279,6 @@ async function decryptUrl(password, params) {
   const salt = b64urlToBytes(params.get("salt"));
   const iv   = b64urlToBytes(params.get("iv"));
   const ct   = b64urlToBytes(params.get("ct"));
-
   const key = await pbkdf2Key(password, salt, iters);
   const pt  = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
   const dec = new TextDecoder().decode(pt);
@@ -287,14 +286,14 @@ async function decryptUrl(password, params) {
   return dec;
 }
 
-/* ---------- Main action ---------- */
+/* Main */
 go.addEventListener('click', async () => {
   err.textContent = "";
   inputWrap.classList.remove('shake');
 
   const params = parseFragment();
   if (![...params.keys()].length) {
-    err.textContent = "Missing encrypted link. Please use the QR code or the full unlock URL.";
+    err.textContent = "Missing encrypted link. Please use the QR code or full unlock URL.";
     return;
   }
 
@@ -302,13 +301,13 @@ go.addEventListener('click', async () => {
   if (!password) {
     err.textContent = "Please enter the password.";
     inputWrap.classList.add('shake');
+    pw.focus();
     return;
   }
 
   try {
     const url = await decryptUrl(password, params);
-    veil.classList.add('on'); // show spinner
-    // small delay to let the UI update
+    veil.classList.add('on');
     setTimeout(() => window.location.replace(url), 100);
   } catch (e) {
     console.error(e);
